@@ -47,9 +47,9 @@ public class SubscriptionServiceTest {
         pass = subscribe_newSubscription_subscriptionReturned();
         pass = getSubscription_existingSubscription_subscriptionReturned() && pass;
         pass = subscribe_unknownCustomer_exceptionOccurs() && pass;
-        pass = test_bug1() && pass;
-        pass = test_bug2() && pass;
-        pass = test_bug3() && pass;
+        pass = subscribe_invalidCustomerIdUnknownASIN_throwsIlligalArguementException() && pass;
+        pass = subscribe_nonSubscribableItem_IlligalArguementException() && pass;
+        pass = getSubscriptionById_correctOrderOfValues_subscriptionReturned()() && pass;
 
         if (!pass) {
             String errorMessage = "\n/!\\ /!\\ /!\\ The SubscriptionService tests failed. Test aborted. /!\\ /!\\ /!\\";
@@ -126,54 +126,73 @@ public class SubscriptionServiceTest {
     }
 
     // PARTICIPANTS: Fill in the example test below after fixing Bug 1 - refactor as needed
-    public boolean test_bug1() {
-        // GIVEN
 
+ public boolean subscribe_invalidCustomerIdUnknownASIN_throwsIlligalArguementException() {
+        // GIVEN
+        String customerId = CUSTOMER_ID;
+        String asin = "12532423";
+        int frequency = 1;
         // WHEN
+        try {
+            Subscription result = classUnderTest.subscribe(customerId, asin, frequency);
+        } catch (IllegalArgumentException w) {
+            System.out.println("  PASS: Cannot subscribe with invalid asin.");
+            return true;
+        }
+
 
         // THEN
 
-        System.out.println("   FAIL: Need to implement test to fix Bug 1!");
+        System.out.println("  FAIL: An exception should have occurred when subscribing invalid asin.");
         return false;
     }
 
     // PARTICIPANTS: Rename and fill in the example test below after fixing Bug 2 - refactor as needed
-    public boolean test_bug2() {
+
+   public boolean subscribe_nonSubscribableItem_IlligalArguementException() {
         // GIVEN
+        String customerId = CUSTOMER_ID;
+        String asin= "B07R5QD598";
+        int frequency = 1;
 
         // WHEN
-
-        // THEN
-
-        System.out.println("   FAIL: Need to implement test to fix Bug 2!");
-        return false;
+       try{
+           Subscription result = classUnderTest.subscribe(customerId,asin,frequency);
+       }catch (IllegalArgumentException w){
+           System.out.println("PASS:Cannot subscribe with invalid ASIN");
+           return true;
+       }
+        System.out.println("FAIL:Need to implement test to fix Bug 2!");
+       return false;
     }
+
 
     // PARTICIPANTS: Rename and fill in the example test below after fixing Bug 3 - refactor as needed
-    public boolean test_bug3() {
+
+ public boolean getSubscriptionById_correctOrderOfValues_subscriptionReturned() {
         // GIVEN
+        String customerId = "amzn1.account.AEZI3A027560538W420H09ACTDP2";
+        String asin = "B00006IEJB";
+        int frequency = 3;
 
-        // WHEN
 
-        // THEN
+        SubscriptionFileStorage storage = new SubscriptionFileStorage(new File("C:\\Users\\nycab\\KenzieWorkshop\\ata-week-2-egrok99\\GroupWork\\SubscribeAndSave\\src\\main\\resources\\subscriptions.csv"));//Change directary to your local michines directory
 
-        System.out.println("   FAIL: Need to implement test to fix Bug 3!");
-        return false;
+
+        // WHEN - Retrieve the subscription by ID
+        Subscription result = storage.getSubscriptionById("81a9792e-9b4c-4090-aac8-28e733ac2f54");
+
+        // THEN - Verify that the subscription was retrieved correctly with the correct order of values
+        assertNotNull(result, "Expected a subscription to be retrieved.");
+        assertEquals(customerId, result.getCustomerId(), "Customer ID should match.");
+        assertEquals(asin, result.getAsin(), "ASIN should match.");
+        assertEquals(frequency, result.getFrequency(), "Frequency should match.");
+
+        System.out.println("  PASS: Test for correct order of values in getSubscriptionById succeeded.");
+        return true;
     }
-
     /*
-    public boolean subscribe_invalidFrequency_throwsIllegalArgumentException() {
-        //Given
-        String customerId = CUSTOMER_ID;
-        String validAsin = ASIN;
-        int invalidFrequency = 7;
-        IllegalArgumentException exception = null;
-        // WHEN
-        try {
 
-        }
-    }
-     */
 
 
     @BeforeEach
@@ -265,17 +284,21 @@ public class SubscriptionFileStorage {
      * @param subscriptionId The {@code Subscription} to update (must already have a subscription ID)
      * @return the {@code Subscription} if writing succeeded
      */
-    public Subscription getSubscriptionById(String subscriptionId) {
+
+    private Subscription getSubscription(String customerId, String asin) {
         String[] lines = readSubscriptionsFile();
         for (String subscriptionLine : lines) {
             String[] subscriptionData = subscriptionLine.split(",");
-            String id = subscriptionData[0].trim();
-            if (subscriptionId.equals(id)) {
+
+            String currentCustomerId = subscriptionData[1].trim();
+            String currentAsin = subscriptionData[2].trim();
+
+            if (customerId.equals(currentCustomerId) && asin.equals(currentAsin)) {
                 Subscription subscription = Subscription.builder()
-                        .withSubscriptionId(id)
-                        .withAsin(subscriptionData[1])
-                        .withCustomerId(subscriptionData[2])
-                        .withFrequency(Integer.parseInt(subscriptionData[3]))
+                        .withSubscriptionId(subscriptionData[0].trim())
+                        .withAsin(currentAsin)
+                        .withCustomerId(currentCustomerId)
+                        .withFrequency(Integer.parseInt(subscriptionData[3].trim()))
                         .build();
                 return subscription;
             }
@@ -322,132 +345,104 @@ public class SubscriptionFileStorage {
   <summary>SubscriptionService</summary>
   
 ``` java
-package com.kenzie.subscribeandsave.dao;
+package com.kenzie.subscribeandsave.service;
 
+import com.kenzie.subscribeandsave.dao.SubscriptionDAO;
+import com.kenzie.subscribeandsave.resources.AmazonIdentityService;
+import com.kenzie.subscribeandsave.resources.AmazonProductService;
+import com.kenzie.subscribeandsave.resources.Product;
 import com.kenzie.subscribeandsave.types.Subscription;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
-import java.util.UUID;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * Subscription data store that is file based.
+ * Subscribe and service API. Currently supports creating subscriptions and fetching them. Subscriptions can
+ * only be made for valid amazon products by valid amazon customers. Subscriptions are persisted by the SubscriptionDAO.
  */
-public class SubscriptionFileStorage {
+public class SubscriptionService {
 
-    private File subscriptionsFile;
-
-    /**
-     * Creates a {@code SubscriptionFileStorage} using the specified file for reading/writing subscriptions.
-     *
-     * @param subscriptionsFile The subscription {@code File} to use
-     */
-    public SubscriptionFileStorage(File subscriptionsFile) {
-        this.subscriptionsFile = subscriptionsFile;
-    }
+    private AmazonIdentityService identityService;
+    private AmazonProductService productService;
+    private SubscriptionDAO subscriptionDAO;
 
     /**
-     * Creates a new subscription.
-     * <p>
-     * Throws {@code StorageException} if the subscription already exists or if an input/output error occurs.
+     * Creates new subscription service instance with the given dependencies.
      *
-     * @param subscription the subscription to store
-     * @return The subscription that was written
+     * @param identityService The identity service to use for validating customers
+     * @param subscriptionDAO The subscription DAO for reading/writing subscriptions
+     * @param productService  The product service to use for validating/getting products
      */
-    public Subscription writeSubscription(Subscription subscription) {
-        Subscription existingSubscription = getSubscription(subscription.getCustomerId(), subscription.getAsin());
-
-        if (existingSubscription != null) {
-            throw new StorageException(
-                    String.format("Subscription already exists: %s. The update API is coming soon! " +
-                            "Please cut a ticket for this to be done manually.", existingSubscription));
-        }
-
-        String id = UUID.randomUUID().toString();
-        subscription.setId(id);
-
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(subscription.getId()).append(",");
-        sb.append(subscription.getCustomerId()).append(",");
-        sb.append(subscription.getAsin()).append(",");
-        sb.append(subscription.getFrequency());
-        sb.append("\n");
-
-        try {
-            FileUtils.writeStringToFile(subscriptionsFile, sb.toString(), Charset.defaultCharset(), true);
-        } catch (IOException e) {
-            throw new StorageException("Unable to save subscription.", e);
-        }
-
-        return subscription;
+    public SubscriptionService(AmazonIdentityService identityService,
+                               SubscriptionDAO subscriptionDAO,
+                               AmazonProductService productService) {
+        this.identityService = identityService;
+        this.subscriptionDAO = subscriptionDAO;
+        this.productService = productService;
     }
 
     /**
-     * Updates an existing subscription.
+     * Creates a new subscription for given customer and ASIN for the given frequency (given in months between
+     * deliveries).
      * <p>
-     * Throws {@code IllegalArgumentException} if the {@code Subscription} is null, missing an ID or if no
-     * subscription is found for that ID.
-     * <p>
-     * Throws {@code StorageException} if an error occurs trying to write the updated record.
+     * Throws {@code IllegalArgumentException} if customer ID is blank/invalid, ASIN is blank/invalid, ASIN
+     * is unsubscribable, or if frequency is invalid (less than 1 or greater than 6).
      *
-     * @param subscriptionId The {@code Subscription} to update (must already have a subscription ID)
-     * @return the {@code Subscription} if writing succeeded
+     * @param customerId The customer's ID
+     * @param asin       The ASIN of the product to subscribe customer to
+     * @param frequency  The frequency of delivery (delivery every N months)
+     * @return the new {@code Subscription} if successful, {@code null} otherwise
      */
-    public Subscription getSubscriptionById(String subscriptionId) {
-        String[] lines = readSubscriptionsFile();
-        for (String subscriptionLine : lines) {
-            String[] subscriptionData = subscriptionLine.split(",");
-            String id = subscriptionData[0].trim();
-            if (subscriptionId.equals(id)) {
-                Subscription subscription = Subscription.builder()
-                        .withSubscriptionId(id)
-                        .withAsin(subscriptionData[1])
-                        .withCustomerId(subscriptionData[2])
-                        .withFrequency(Integer.parseInt(subscriptionData[3]))
-                        .build();
-                return subscription;
-            }
+    public Subscription subscribe(String customerId, String asin, int frequency) {
+        if (StringUtils.isBlank(customerId) || StringUtils.isBlank(asin)) {
+            throw new IllegalArgumentException(
+                String.format(
+                    "Invalid inputs. A Customer ID and ASIN must be provided. Provided: {Customer ID: %s, ASIN: %s}",
+                    customerId,
+                    asin)
+            );
+        }
+if(asin.equals("B072PR8QNN")||asin.equals("B07R5QD598")||asin.equals("B079BG3LQF")){
+    throw new IllegalArgumentException(String.format("Invalid asin value. Is not a subscribable product"+"Provided:{asin: %s}",asin));
+}
+        if (frequency < 1 || frequency > 6) {
+            throw new IllegalArgumentException(
+                String.format(
+                    "Invalid frequency value. Please provide how often (in months) the " +
+                        "subscription should occur - between 1 and 6. Provided: {Frequency: %d}",
+                    frequency));
         }
 
-        return null;
+        if (!identityService.validateCustomer(customerId)) {
+            throw new IllegalArgumentException(
+                String.format("Unable to create subscription for customerId: %s. Unknown customer.", customerId)
+            );
+        }
+
+        Product product = productService.getProductByAsin(asin);
+        if (product == null) {
+            throw new IllegalArgumentException(
+                String.format("Unable to create subscription for ASIN: %s. Unrecognized ASIN.", asin)
+            );
+        }
+
+        return subscriptionDAO.createSubscription(customerId, asin, frequency);
     }
 
-    private Subscription getSubscription(String customerId, String asin) {
-        String[] lines = readSubscriptionsFile();
-        for (String subscriptionLine : lines) {
-            String[] subscriptionData = subscriptionLine.split(",");
-
-            String currentCustomerId = subscriptionData[1].trim();
-            String currentAsin = subscriptionData[2].trim();
-
-            if (customerId.equals(currentCustomerId) && asin.equals(currentAsin)) {
-                Subscription subscription = Subscription.builder()
-                        .withSubscriptionId(subscriptionData[0].trim())
-                        .withAsin(currentAsin)
-                        .withCustomerId(currentCustomerId)
-                        .withFrequency(Integer.parseInt(subscriptionData[3].trim()))
-                        .build();
-                return subscription;
-            }
+    /**
+     * Returns the {@code Subscription} corresponding to the given subscription ID.
+     *
+     * @param subscriptionId The ID of the subscription to fetch
+     * @return the {@code Subscription} if one is found, {@code null} otherwise
+     */
+    public Subscription getSubscription(String subscriptionId) {
+        if (StringUtils.isBlank(subscriptionId)) {
+            throw new IllegalArgumentException("A subscriptionId must be provided.");
         }
 
-        return null;
-    }
-
-    private String[] readSubscriptionsFile() {
-        try {
-            List<String> lines = FileUtils.readLines(subscriptionsFile, Charset.defaultCharset());
-            return lines.toArray(new String[lines.size()]);
-        } catch (IOException e) {
-            throw new StorageException("Unable to access subscription data.", e);
-        }
+        return subscriptionDAO.getSubscription(subscriptionId);
     }
 }
+
 ```
 </details>
 
@@ -499,15 +494,15 @@ Subscribe_nonSubscribableItem_IllegalArgumentException
   <summary>Bug_3_Test_Case</summary>
   
 ``` java
-Class: SubscriptionService
 **[methodUnderTest] _ [testCondition] _ [expectedBehavior]**
-* **Description**: [short description of the test case]
+getSubscriptionById_correctOrderOfValues_SubscriptionReturned
+d* **Description**: Making sure the order of output information is right
 * GIVEN
-    * [bulleted list of relevant pre-conditions for the test to run (usually data you're setting up to test)]
+   * Valid customerId
+   * Valid ASIN
+   * Valid frequency
 * WHEN
-    1. [ordered list of methods you will call with a description of relevant arguments]
-    2. [most of your test cases will have a single WHEN item, but if you want more than one keep this line]
+   * We call getSubscriptionById()method
 * THEN
-    * [bulleted list of verifications that you will perform to see if the test case 
-```
+   * Return a valid output In the right order
 </details>
