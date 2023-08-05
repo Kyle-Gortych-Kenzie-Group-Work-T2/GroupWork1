@@ -47,9 +47,11 @@ public class SubscriptionServiceTest {
         pass = subscribe_newSubscription_subscriptionReturned();
         pass = getSubscription_existingSubscription_subscriptionReturned() && pass;
         pass = subscribe_unknownCustomer_exceptionOccurs() && pass;
-        pass = test_bug1() && pass;
-        pass = test_bug2() && pass;
-        pass = test_bug3() && pass;
+       // pass = test_bug1() && pass;
+        pass = subscribe_unknownASIN_throwsIllegalArgumentException() && pass;
+       //  pass = test_bug2() && pass;
+        pass = subscribe_nonSubscribableItem_IllegalArgumentException() && pass;
+       //   pass = test_bug3() && pass;
 
         if (!pass) {
             String errorMessage = "\n/!\\ /!\\ /!\\ The SubscriptionService tests failed. Test aborted. /!\\ /!\\ /!\\";
@@ -125,25 +127,45 @@ public class SubscriptionServiceTest {
         return false;
     }
 
-    // PARTICIPANTS: Fill in the example test below after fixing Bug 1 - refactor as needed
-    public boolean test_bug1() {
-        // GIVEN
 
-        // WHEN
+    // todo                     BUG 1
+    public boolean subscribe_unknownASIN_throwsIllegalArgumentException() {
+        // GIVEN - an invalid ASI to make a subscription
 
-        // THEN
+        String customerId = CUSTOMER_ID;
+        String asin = "B01BMDAV";
+        int frequency = 1;
 
-        System.out.println("   FAIL: Need to implement test to fix Bug 1!");
+        // WHEN/THEN - try to create a new subscription with unknown asin, catch IllegalArgumentException
+        try {
+            Subscription result = classUnderTest.subscribe(customerId, asin, frequency);
+        } catch (IllegalArgumentException w) {
+            System.out.println("  PASS: Cannot subscribe with invalid ASIN.");
+            return true;
+        }
+
+
+        System.out.println("   FAIL: Need to implement test to fix UnknowASIN error");
         return false;
     }
 
-    // PARTICIPANTS: Rename and fill in the example test below after fixing Bug 2 - refactor as needed
-    public boolean test_bug2() {
+    // todo                    BUG 2
+
+    public boolean subscribe_nonSubscribableItem_IllegalArgumentException() {
         // GIVEN
-
+        String customerId = CUSTOMER_ID;
+        String asin = "B07R5QD598"; // powerbeats non-subscribable
+        int frequency = 1;
         // WHEN
+        try {
+            Subscription result = classUnderTest.subscribe(customerId, asin, frequency);
+        } catch (IllegalArgumentException w) {
+            System.out.println("  PASS: Cannot subscribe with invalid ASIN.");
+            return true;
+        }
 
-        // THEN
+        // IF IT GETS DOWN HERE, IT MEANS THE ERROR WAS NOT CAUGHT
+        // and a SUBSCRIPTION WAS MADE WITH A NON-SUBSCRIBABLE PRODUCT
 
         System.out.println("   FAIL: Need to implement test to fix Bug 2!");
         return false;
@@ -161,20 +183,6 @@ public class SubscriptionServiceTest {
         return false;
     }
 
-    /*
-    public boolean subscribe_invalidFrequency_throwsIllegalArgumentException() {
-        //Given
-        String customerId = CUSTOMER_ID;
-        String validAsin = ASIN;
-        int invalidFrequency = 7;
-        IllegalArgumentException exception = null;
-        // WHEN
-        try {
-
-        }
-    }
-     */
-
 
     @BeforeEach
     @AfterEach
@@ -182,6 +190,7 @@ public class SubscriptionServiceTest {
         SubscriptionRestorer.restoreSubscriptions();
     }
 }
+
 ```
 </details>
 
