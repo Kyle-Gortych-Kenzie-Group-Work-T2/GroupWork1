@@ -455,7 +455,23 @@ public class SubscriptionFileStorage {
   <summary>Bug_1_Test_Case</summary>
   
 ``` java
-/*add*/
+Class: SubscriptionService.java  // class with bug of incorrect error message
+
+// Test method in SubscriptionServiceTest.java 
+// [methodUnderTest] _ [testCondition] _ [expectedBehavior]**
+
+   subscribe_unknownASI_throwsIllegalArgumentException
+  
+// Description:  If an unknown ASI number given, should throw IllegalArgumentException
+  GIVEN
+    * Valid Customer ID
+    * Valid Frequency
+    * Invalid ASI number
+  WHEN
+    1. Subscribe() is called with above inputs
+    
+  THEN
+    Test passes if IllegalArgumentException with specific error message is thrown 
 ```
 </details>
 
@@ -463,7 +479,19 @@ public class SubscriptionFileStorage {
   <summary>Bug_2_Test_Case</summary>
   
 ``` java
-/*add*/
+Class: SubscriptionService
+
+Subscribe_nonSubscribableItem_IllegalArgumentException
+
+* **Description**: If an ASIN number is NOT subscribable, an IllegalArgumentException should be thrown
+* 
+* GIVEN
+    valid customerID, ASIN that is NOT subscribable, valid frequency
+* WHEN
+     Subscribe is called with given inputs
+    
+* THEN
+    Test passes if an IllegalArgumentException is thrown
 ```
 </details>
 
@@ -471,6 +499,15 @@ public class SubscriptionFileStorage {
   <summary>Bug_3_Test_Case</summary>
   
 ``` java
-/*add*/
+Class: SubscriptionService
+**[methodUnderTest] _ [testCondition] _ [expectedBehavior]**
+* **Description**: [short description of the test case]
+* GIVEN
+    * [bulleted list of relevant pre-conditions for the test to run (usually data you're setting up to test)]
+* WHEN
+    1. [ordered list of methods you will call with a description of relevant arguments]
+    2. [most of your test cases will have a single WHEN item, but if you want more than one keep this line]
+* THEN
+    * [bulleted list of verifications that you will perform to see if the test case 
 ```
 </details>
