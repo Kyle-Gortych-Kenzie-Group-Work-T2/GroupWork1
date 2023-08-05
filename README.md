@@ -1,8 +1,7 @@
 # GroupWork1
 
-## SubscriptionServiceTest
 <details>
-  <summary>Click to expand</summary>
+  <summary>SubscriptionServiceTest</summary>
   
 ``` java
 package com.kenzie.subscribeandsave.service;
@@ -186,45 +185,40 @@ public class SubscriptionServiceTest {
 ```
 </details>
 
-## SubscriptionFileStorage
 <details>
-  <summary>Click to expand</summary>
+  <summary>SubscriptionFileStorage</summary>
   
 ``` java
 /*bob*/
 ```
 </details>
 
-## SubscriptionService
 <details>
-  <summary>Click to expand</summary>
+  <summary>SubscriptionService</summary>
   
 ``` java
 /*bob*/
 ```
 </details>
 
-## Bug_1_Test_Case
 <details>
-  <summary>Click to expand</summary>
+  <summary>Bug_1_Test_Case</summary>
   
 ``` java
 /*bob*/
 ```
 </details>
 
-## Bug_2_Test_Case
 <details>
-  <summary>Click to expand</summary>
+  <summary>Bug_2_Test_Case</summary>
   
 ``` java
 /*bob*/
 ```
 </details>
 
-## Bug_3_Test_Case
 <details>
-  <summary>Click to expand</summary>
+  <summary>Bug_3_Test_Case</summary>
   
 ``` java
 /*bob*/
