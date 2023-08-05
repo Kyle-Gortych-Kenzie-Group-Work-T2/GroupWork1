@@ -120,24 +120,44 @@ public class SubscriptionServiceTest {
     }
 
     // PARTICIPANTS: Fill in the example test below after fixing Bug 1 - refactor as needed
-    public boolean test_bug1() {
-        // GIVEN
+    // Bug 1 was fixed in SubscriptionService by correcting string format error around line 87
 
-        // WHEN
+    public subscribe_unknownASIN_throwsIllegalArgumentException() {
+        // GIVEN - an invalid ASI to make a subscription
+              
+        String customerId = CUSTOMER_ID;
+        String asin = "B01BMDAV";
+        int frequency = 1;
 
-        // THEN
+        // WHEN/THEN - try to create a new subscription with unknown asin, catch IllegalArgumentException
+        try {
+            Subscription result = classUnderTest.subscribe(customerId, asin, frequency);
+        } catch (IllegalArgumentException w) {
+            System.out.println("  PASS: Cannot subscribe with invalid ASIN.");
+            return true;
+        }
 
         System.out.println("   FAIL: Need to implement test to fix Bug 1!");
         return false;
     }
 
     // PARTICIPANTS: Rename and fill in the example test below after fixing Bug 2 - refactor as needed
-    public boolean test_bug2() {
-        // GIVEN
+    // Bug 2 was fixed in SubscriptionService by throwing exception if ASIN was unsubscribable
 
-        // WHEN
+    public subscribe_nonSubscribableItem_IllegalArgumentException() {
+        // GIVEN - an unsubscribable ASI number
 
-        // THEN
+        String customerId = CUSTOMER_ID;
+        String asin = "B07R5QD598"; // powerbeats non-subscribable
+        int frequency = 1;
+
+        // WHEN/THEN - try to create a new subscription with unsubscribable asin, catch IllegalArgumentException
+        try {
+            Subscription result = classUnderTest.subscribe(customerId, asin, frequency);
+        } catch (IllegalArgumentException w) {
+            System.out.println("  PASS: Cannot subscribe with invalid ASIN.");
+            return true;
+        }
 
         System.out.println("   FAIL: Need to implement test to fix Bug 2!");
         return false;
