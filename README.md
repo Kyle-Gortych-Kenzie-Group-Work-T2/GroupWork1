@@ -257,8 +257,8 @@ public class SubscriptionFileStorage {
 
         StringBuilder sb = new StringBuilder();
         sb.append(subscription.getId()).append(",");
+        sb.append(subscription.getAsin()).append(","); //Swap getCustomerId and getAsin
         sb.append(subscription.getCustomerId()).append(",");
-        sb.append(subscription.getAsin()).append(",");
         sb.append(subscription.getFrequency());
         sb.append("\n");
 
@@ -290,9 +290,9 @@ public class SubscriptionFileStorage {
             if (subscriptionId.equals(id)) {
                 Subscription subscription = Subscription.builder()
                         .withSubscriptionId(id)
-                        .withAsin(subscriptionData[1])
-                        .withCustomerId(subscriptionData[2])
-                        .withFrequency(Integer.parseInt(subscriptionData[3]))
+                        .withCustomerId(subscriptionData[1].trim()) // Fix the order of CustomerId and Asin
+                        .withAsin(subscriptionData[2].trim()) // Fix the order of CustomerId and Asin
+                        .withFrequency(Integer.parseInt(subscriptionData[3].trim()))
                         .build();
                 return subscription;
             }
@@ -332,6 +332,7 @@ public class SubscriptionFileStorage {
         }
     }
 }
+
 ```
 </details>
 
