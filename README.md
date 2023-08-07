@@ -168,18 +168,16 @@ public class SubscriptionServiceTest {
     }
 
     // PARTICIPANTS: Rename and fill in the example test below after fixing Bug 3 - refactor as needed
-    public boolean getSubscriptionById_correctOrderOfValues_subscriptionReturned() {
+   public boolean getSubscriptionById_correctOrderOfValues_subscriptionReturned() {
         // GIVEN
         String customerId = "amzn1.account.AEZI3A027560538W420H09ACTDP2";
         String asin = "B00006IEJB";
         int frequency = 3;
 
- 
-        SubscriptionFileStorage storage = new SubscriptionFileStorage(new File("C:\\Users\\nycab\\KenzieWorkshop\\ata-week-2-egrok99\\GroupWork\\SubscribeAndSave\\src\\main\\resources\\subscriptions.csv"));//subscription.csv
 
 
         // WHEN - Retrieve the subscription by ID
-        Subscription result = storage.getSubscriptionById("81a9792e-9b4c-4090-aac8-28e733ac2f54");
+        Subscription result = classUnderTest.getSubscription("81a9792e-9b4c-4090-aac8-28e733ac2f54");
 
         // THEN - Verify that the subscription was retrieved correctly with the correct order of values
         assertNotNull(result, "Expected a subscription to be retrieved.");
