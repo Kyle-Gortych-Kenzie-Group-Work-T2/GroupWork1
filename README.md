@@ -1,4 +1,4 @@
-# GroupWork1
+# Files refactored or created within the project
 
 <details>
   <summary>SubscriptionServiceTest</summary>
