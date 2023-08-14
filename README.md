@@ -1,7 +1,7 @@
 # Week2 Group Work
 
 <details>
-<summary><h2>Refactored or created Files</h2></summary>
+<summary><h2>Original Work</h2></summary>
 
 <details>
   <summary>SubscriptionServiceTest</summary>
