@@ -1,4 +1,7 @@
-# Files refactored or created within the project
+# Week2 Group Work
+
+<details>
+<summary><h2>Refactored or created Files</h2></summary>
 
 <details>
   <summary>SubscriptionServiceTest</summary>
@@ -509,4 +512,6 @@ Class: SubscriptionService
 * THEN
     * [bulleted list of verifications that you will perform to see if the test case 
 ```
+</details>
+
 </details>
