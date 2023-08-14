@@ -399,13 +399,7 @@ public class SubscriptionService {
         }
         // TODO BUG 2 FIX - CHECK FOR NON-SUBSCRIBABLE ASINS (isSNS=false in catalog.json), THROW EXCEPTION
 
-        if (asin.equals("B072PR8QNN") || asin.equals("B07R5QD598") || asin.equals("B079BG3LQF") ) {
 
-            throw new IllegalArgumentException(
-                    String.format(
-                            "Invalid asin value. Is not a subscribable product " +
-                                    " Provided: {asin: %s}",
-                            asin));
 
         }
 
@@ -430,6 +424,11 @@ public class SubscriptionService {
                 String.format("Unable to create subscription for ASIN: %s Unrecognized ASIN.", asin)
             );
         }
+
+  if(!product.isSNS()){                                     // Bug 2 fix
+            throw new IllegalArgumentException(" Product is not a valid SNS");
+        }
+
 
         return subscriptionDAO.createSubscription(customerId, asin, frequency);
     }
