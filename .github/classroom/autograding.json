@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Group Work - SubscribeAndSave - Unit Tests",
+      "setup": "",
+      "run": "./gradlew groupwork-subscribeandsave-test --rerun-tasks",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    }
+  ]
+}
