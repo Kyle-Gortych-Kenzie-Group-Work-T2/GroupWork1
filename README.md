@@ -5,7 +5,7 @@ blank
 <details>
 <summary>Diff with original branch</summary>
 
-```java
+```diff
 diff --git a/Debugging/WordAnalyzer/src/main/java/com/kenzie/debugging/wordanalyzer/WordAnalyzer.java b/Debugging/WordAnalyzer/src/main/java/com/kenzie/debugging/wordanalyzer/WordAnalyzer.java
 index 34eec3f..3ce582e 100644
 --- a/Debugging/WordAnalyzer/src/main/java/com/kenzie/debugging/wordanalyzer/WordAnalyzer.java
