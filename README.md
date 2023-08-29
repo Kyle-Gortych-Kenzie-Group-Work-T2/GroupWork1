@@ -5,6 +5,9 @@ blank
 <details>
 <summary>Diff with original branch</summary>
 
+<details>
+<summary>SubscriptionFileStorage.java</summary>
+ 
 ```diff
 diff --git a/GroupWork/SubscribeAndSave/src/main/java/com/kenzie/subscribeandsave/dao/SubscriptionFileStorage.java b/GroupWork/SubscribeAndSave/src/main/java/com/kenzie/subscribeandsave/dao/SubscriptionFileStorage.java
 index 60b8821..282484a 100644
@@ -33,6 +36,13 @@ index 60b8821..282484a 100644
                          .build();
                  return subscription;
              }
+```
+</details>
+
+<details>
+<summary>SubscriptionService.java</summary>
+ 
+```diff
 diff --git a/GroupWork/SubscribeAndSave/src/main/java/com/kenzie/subscribeandsave/service/SubscriptionService.java b/GroupWork/SubscribeAndSave/src/main/java/com/kenzie/subscribeandsave/service/SubscriptionService.java
 index d7a4d0f..87b65a1 100644
 --- a/GroupWork/SubscribeAndSave/src/main/java/com/kenzie/subscribeandsave/service/SubscriptionService.java
@@ -98,7 +108,13 @@ index d7a4d0f..87b65a1 100644
 +        }
          return subscriptionDAO.createSubscription(customerId, asin, frequency);
      }
+```
+</details>
+
+<details>
+<summary>bug_test_case.md 1, 2, and 3</summary>
  
+```diff
 diff --git a/GroupWork/SubscribeAndSave/src/test/java/com/kenzie/subscribeandsave/bug_1_test_case.md b/GroupWork/SubscribeAndSave/src/test/java/com/kenzie/subscribeandsave/bug_1_test_case.md
 new file mode 100644
 index 0000000..e4499c4
@@ -152,6 +168,13 @@ index 0000000..084cae5
 +* THEN
 +    * [bulleted list of verifications that you will perform to see if the test case 
 \ No newline at end of file
+```
+</details>
+
+<details>
+<summary>SubscriptionServiceTest.java</summary>
+ 
+```diff
 diff --git a/GroupWork/SubscribeAndSave/src/test/java/com/kenzie/subscribeandsave/service/SubscriptionServiceTest.java b/GroupWork/SubscribeAndSave/src/test/java/com/kenzie/subscribeandsave/service/SubscriptionServiceTest.java
 index 6423974..14dbcfb 100644
 --- a/GroupWork/SubscribeAndSave/src/test/java/com/kenzie/subscribeandsave/service/SubscriptionServiceTest.java
@@ -303,6 +326,8 @@ index 6423974..14dbcfb 100644
 +}
 \ No newline at end of file
 ```
+</details>
+
 </details>
 
 ## Gradle test
