@@ -2,10 +2,9 @@
 
 blank
 
-| Branch | Status | 
-| ------ | ------ |
-| main | ![](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/classroom.yml/badge.svg) |
-| original | ![](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/classroom.yml/badge.svg?branch=original) |
+![main](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/main/main.yml/badge.svg)
+
+![original](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/original/original.yml/badge.svg?branch=original)
 
 <details>
 <summary>Diff with original branch</summary>
