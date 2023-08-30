@@ -1,10 +1,9 @@
-name: Unit Tests
+name: main
 
 on: 
   push:
     branches:
       - main
-      - original
 
 permissions:
   checks: write
