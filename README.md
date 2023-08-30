@@ -6,7 +6,7 @@ blank
 ![main](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/classroom.yml/badge.svg)
 
 ## original
-![original](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/classroom.yml/badge.svg?branch=original)
+![original](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/original/classroom.yml/badge.svg?branch=original)
 
 <details>
 <summary>Diff with original branch</summary>
