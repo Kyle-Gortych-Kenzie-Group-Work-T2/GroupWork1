@@ -2,10 +2,13 @@
 
 blank
 
-![main](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/main/main.yml/badge.svg)
+## branch status
+![main](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/main.yml/badge.svg)
 
-![original](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/original/original.yml/badge.svg?branch=original)
+![original](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/original.yml/badge.svg?branch=original)
 
+
+## Changes
 <details>
 <summary>Diff with original branch</summary>
 
@@ -334,9 +337,7 @@ index 6423974..14dbcfb 100644
 
 </details>
 
-## Gradle test
-
-### Group Work - SubscribeAndSave
+### Gradle commands
 
 * `./gradlew groupwork-subscribeandsave-test` - Run Unit Tests for SubscribeAndSave
 * `./gradlew groupwork-subscribeandsave-cli` - Run the SubscribeAndSave CLI
