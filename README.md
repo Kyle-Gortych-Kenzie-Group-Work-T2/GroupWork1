@@ -6,7 +6,7 @@
 
 # Group Project
 
-blank
+descript
 
 ## Changes
 <details>
