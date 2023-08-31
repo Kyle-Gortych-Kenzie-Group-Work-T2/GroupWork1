@@ -4,7 +4,7 @@
 
 </div>
 
-# Group Project
+# Week 2 Group Project
 
 descript
 
