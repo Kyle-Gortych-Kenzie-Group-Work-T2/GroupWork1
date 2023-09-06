@@ -1,6 +1,6 @@
 <div align="right">
  
-![main](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/main.yml/badge.svg) ![original](https://github.com/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/actions/workflows/original.yml/badge.svg?branch=original)
+![week 2](https://img.shields.io/github/actions/workflow/status/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/main.yml?label=main) ![week 2](https://img.shields.io/github/actions/workflow/status/Kyle-Gortych-Kenzie-Group-Work-T2/Week2GroupWork/original.yml?label=original)
 
 </div>
 
