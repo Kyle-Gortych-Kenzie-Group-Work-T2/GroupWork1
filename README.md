@@ -349,8 +349,9 @@ index 6423974..14dbcfb 100644
 
 ### Gradle commands
 
-* `./gradlew groupwork-subscribeandsave-test` - Run Unit Tests for SubscribeAndSave
-* `./gradlew groupwork-subscribeandsave-cli` - Run the SubscribeAndSave CLI
+```console
+./gradlew groupwork-subscribeandsave-test
+```
 <br>
 
 <a href="your-gmail-link?">:mailbox:</a> How to reach the maintainer
